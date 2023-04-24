@@ -4,6 +4,7 @@ import com.example.demo.auth.User;
 import com.example.demo.repository.CustomerRepository;
 import io.dropwizard.auth.Auth;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Validator;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -30,7 +31,7 @@ public class CustomerController {
 
   @GET
   @Path("/{id}")
-  @PermitAll
+  @RolesAllowed({"ADMIN"})
   public Response getCustomerById(@PathParam("id") Integer id, @Auth User user) {
     var customer = customerRepository.getCustomer(id);
     if (customer != null) {

@@ -38,6 +38,7 @@ public class DemoApplication extends Application<ApplicationConfiguration> {
 
     log.info("Registering Application Health Check");
     e.healthChecks().register("application", new ApplicationHealthCheck(client));
+    e.healthChecks().runHealthChecks().forEach((key, value) -> log.info(key + " :: " + value));
 
     e.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
         .setAuthenticator(new AppBasicAuthenticator())
