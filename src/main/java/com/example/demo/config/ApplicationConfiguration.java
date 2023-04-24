@@ -21,6 +21,4 @@ public class ApplicationConfiguration extends Configuration {
   public void setJerseyClientConfiguration(JerseyClientConfiguration jerseyClient) {
     this.jerseyClient = jerseyClient;
   }
-
-  // TODO: http client, more conf
 }

@@ -21,14 +21,14 @@ public class CustomerController {
 
   @GET
   @PermitAll
-  public Response getEmployees() { //@Auth User user
+  public Response getCustomers() { //@Auth User user
     return Response.ok(customerRepository.getCustomers()).build();
   }
 
   @GET
   @Path("/{id}")
   @PermitAll
-  public Response getEmployeeById(@PathParam("id") Integer id) { //@Auth User user
+  public Response getCustomerById(@PathParam("id") Integer id) { //@Auth User user
     var customer = customerRepository.getCustomers();
     if (customer != null) {
       return Response.ok(customer).build();
@@ -37,5 +37,5 @@ public class CustomerController {
     }
   }
 
-  // TODO: more endpoint for CRUD
+  // TODO: more endpoints for CRUD
 }
