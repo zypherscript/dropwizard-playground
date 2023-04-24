@@ -26,7 +26,6 @@ public class ApplicationHealthCheck extends HealthCheck {
     var customers = response.readEntity(new GenericType<List<Customer>>() {
     });
     if (customers != null && !customers.isEmpty()) {
-      System.out.println(customers);
       return Result.healthy();
     }
     return Result.unhealthy("API Failed");

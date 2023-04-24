@@ -29,7 +29,7 @@ public class CustomerController {
   @Path("/{id}")
   @PermitAll
   public Response getCustomerById(@PathParam("id") Integer id) { //@Auth User user
-    var customer = customerRepository.getCustomers();
+    var customer = customerRepository.getCustomer(id);
     if (customer != null) {
       return Response.ok(customer).build();
     } else {
