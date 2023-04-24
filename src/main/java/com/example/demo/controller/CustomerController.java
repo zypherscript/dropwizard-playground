@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.auth.User;
 import com.example.demo.repository.CustomerRepository;
+import io.dropwizard.auth.Auth;
 import jakarta.annotation.security.PermitAll;
+import jakarta.validation.Validator;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -16,19 +19,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomerController {
 
-  //  private final Validator validator;
+  private final Validator validator;
   private final CustomerRepository customerRepository;
 
   @GET
   @PermitAll
-  public Response getCustomers() { //@Auth User user
+  public Response getCustomers(@Auth User user) {
     return Response.ok(customerRepository.getCustomers()).build();
   }
 
   @GET
   @Path("/{id}")
   @PermitAll
-  public Response getCustomerById(@PathParam("id") Integer id) { //@Auth User user
+  public Response getCustomerById(@PathParam("id") Integer id, @Auth User user) {
     var customer = customerRepository.getCustomer(id);
     if (customer != null) {
       return Response.ok(customer).build();
