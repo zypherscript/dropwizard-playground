@@ -7,6 +7,7 @@ import com.example.demo.auth.User;
 import com.example.demo.config.ApplicationConfiguration;
 import com.example.demo.config.ApplicationHealthCheck;
 import com.example.demo.controller.CustomerController;
+import com.example.demo.controller.HealthCheckController;
 import com.example.demo.repository.CustomerRepository;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
@@ -40,7 +41,8 @@ public class DemoApplication extends Application<ApplicationConfiguration> {
     final Template template = c.buildTemplate();
     log.info("Registering Application Health Check");
     e.healthChecks().register("template", new ApplicationHealthCheck(template));
-    e.healthChecks().runHealthChecks().forEach((key, value) -> log.info(key + " :: " + value));
+//    e.healthChecks().runHealthChecks().forEach((key, value) -> log.info(key + " :: " + value));
+    e.jersey().register(new HealthCheckController(e.healthChecks()));
 
     e.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
         .setAuthenticator(new AppBasicAuthenticator())
