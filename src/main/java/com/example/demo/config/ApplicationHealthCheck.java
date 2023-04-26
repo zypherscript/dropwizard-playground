@@ -1,29 +1,21 @@
 package com.example.demo.config;
 
 import com.codahale.metrics.health.HealthCheck;
-import jakarta.ws.rs.client.Client;
+import com.example.demo.auth.Template;
+import java.util.Optional;
 
 public class ApplicationHealthCheck extends HealthCheck {
 
-  private final Client client;
+  private final Template template;
 
-  public ApplicationHealthCheck(Client client) {
-    super();
-    this.client = client;
+  public ApplicationHealthCheck(Template template) {
+    this.template = template;
   }
 
   @Override
   protected Result check() {
-//    var webTarget = client.target("http://localhost:8080/customers");
-//    Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-//
-//    var response = invocationBuilder.get();
-//    var customers = response.readEntity(new GenericType<List<Customer>>() {
-//    });
-//    if (customers != null && !customers.isEmpty()) {
-//      return Result.healthy();
-//    }
-//    return Result.unhealthy("API Failed");
+    template.render(Optional.of("meet the woo"));
+    template.render(Optional.empty());
     return Result.healthy();
   }
 }

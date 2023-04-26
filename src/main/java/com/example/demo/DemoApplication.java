@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.auth.AppAuthorizer;
 import com.example.demo.auth.AppBasicAuthenticator;
+import com.example.demo.auth.Template;
 import com.example.demo.auth.User;
 import com.example.demo.config.ApplicationConfiguration;
 import com.example.demo.config.ApplicationHealthCheck;
@@ -36,8 +37,9 @@ public class DemoApplication extends Application<ApplicationConfiguration> {
     log.info("Registering REST resources");
     e.jersey().register(new CustomerController(e.getValidator(), new CustomerRepository()));
 
+    final Template template = c.buildTemplate();
     log.info("Registering Application Health Check");
-    e.healthChecks().register("application", new ApplicationHealthCheck(client));
+    e.healthChecks().register("template", new ApplicationHealthCheck(template));
     e.healthChecks().runHealthChecks().forEach((key, value) -> log.info(key + " :: " + value));
 
     e.jersey().register(new AuthDynamicFeature(new BasicCredentialAuthFilter.Builder<User>()
