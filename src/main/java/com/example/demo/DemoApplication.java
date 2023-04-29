@@ -8,6 +8,7 @@ import com.example.demo.config.ApplicationConfiguration;
 import com.example.demo.config.ApplicationHealthCheck;
 import com.example.demo.controller.CustomerController;
 import com.example.demo.controller.HealthCheckController;
+import com.example.demo.controller.HttpBinController;
 import com.example.demo.repository.CustomerRepository;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
@@ -18,6 +19,7 @@ import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
 import jakarta.ws.rs.client.Client;
 import lombok.extern.slf4j.Slf4j;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 @Slf4j
@@ -29,11 +31,16 @@ public class DemoApplication extends Application<ApplicationConfiguration> {
 
   @Override
   public void run(ApplicationConfiguration c, Environment e) {
+    e.jersey().setUrlPattern("/app");
+
     log.info("Registering Jersey Client");
     final Client client = new JerseyClientBuilder(e)
         .using(c.getJerseyClientConfiguration())
         .build(getName());
-//    e.jersey().register(new APIController(client));
+    client.property(ClientProperties.CONNECT_TIMEOUT, 1500);
+    client.property(ClientProperties.READ_TIMEOUT, 1500);
+
+    e.jersey().register(new HttpBinController(client));
 
     log.info("Registering REST resources");
     e.jersey().register(new CustomerController(e.getValidator(), new CustomerRepository()));
