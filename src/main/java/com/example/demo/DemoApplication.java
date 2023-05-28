@@ -25,6 +25,8 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 @Slf4j
 public class DemoApplication extends Application<ApplicationConfiguration> {
 
+  //java -jar target/demo-1.0-SNAPSHOT.jar server app.yml
+
   @Override
   public void initialize(Bootstrap<ApplicationConfiguration> b) {
   }
